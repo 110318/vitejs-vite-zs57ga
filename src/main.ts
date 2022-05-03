@@ -1,8 +1,25 @@
-import './style.css'
+import P5, { Vector } from 'p5';
+import { Ball } from './ball';
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+new P5((p) => {
+  const ball = new Ball(p);
+  p.setup = () => {
+    p.createCanvas(400, 400);
+  };
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+  p.draw = () => {
+    p.background(0);
+    ball.display();
+    ball.update();
+    ball.applyForce(new Vector(0, 0.05));
+    ball.checkEdges();
+  };
+
+  p.keyPressed = () => {
+    if (p.key === ' ') {
+      ball.applyForce(new Vector(0, -1.5));
+      // ball.jump();
+    }
+  };
+});
+module.exports;
